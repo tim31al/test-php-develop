@@ -3,6 +3,7 @@
 namespace App\Tests\Functional\Repository;
 
 use App\Entity\Application;
+use App\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\NotSupported;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -31,7 +32,6 @@ class ApplicationRepositoryTest extends KernelTestCase
             ->findOneBy(['title' => 'Title 1']);
 
         $this->assertInstanceOf(Application::class, $application);
-
     }
 
     /**
@@ -44,7 +44,19 @@ class ApplicationRepositoryTest extends KernelTestCase
             ->findAll();
 
         $this->assertCount(5, $applications);
+    }
 
+    public function testFindByUser(): void
+    {
+        $author = $this->entityManager
+            ->getRepository(User::class)
+            ->findOneBy(['email' => 'user1@test.com']);
+
+        $applications = $this->entityManager
+            ->getRepository(Application::class)
+            ->findBy(['author' => $author]);
+
+        $this->assertCount(3, $applications);
     }
 
     protected function tearDown(): void
