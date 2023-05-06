@@ -33,10 +33,16 @@ dc_down:
 app_bash:
 	${DOCKER_COMPOSE} exec -u app php-fpm bash
 
-test:
-	${DOCKER_COMPOSE} exec -u app php-fpm bin/phpunit
-
 cache:
-	docker-compose -f ./docker/docker-compose.yml exec -u app php-fpm bin/console cache:clear
-	docker-compose -f ./docker/docker-compose.yml exec -u app php-fpm bin/console cache:clear --env=test
+	${DOCKER_COMPOSE} exec -u app php-fpm bin/console cache:clear
+	${DOCKER_COMPOSE} exec -u app php-fpm bin/console cache:clear --env=test
+
+test:
+	${DOCKER_COMPOSE} exec -u app php-fpm -d xdebug.mode=off bin/phpunit --testdox
+
+test_unit:
+	${DOCKER_COMPOSE} exec -u app php-fpm -d xdebug.mode=off vendor/bin/phpunit tests/Unit --testdox
+
+test_api:
+	${DOCKER_COMPOSE} exec -u app php-fpm -d xdebug.mode=off vendor/bin/phpunit tests/Api --testdox
 

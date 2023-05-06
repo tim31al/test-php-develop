@@ -10,8 +10,6 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
       pecl install xdebug && docker-php-ext-enable xdebug; \
     fi;
 
-COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
-
 # Postgres
 RUN apk add --no-cache libpq-dev && docker-php-ext-install pdo_pgsql
 
