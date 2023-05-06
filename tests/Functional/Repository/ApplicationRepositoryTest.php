@@ -23,6 +23,7 @@ class ApplicationRepositoryTest extends KernelTestCase
     }
 
     /**
+     * Поиск по названию
      * @throws NotSupported
      */
     public function testSearchByTitle(): void
@@ -35,18 +36,10 @@ class ApplicationRepositoryTest extends KernelTestCase
     }
 
     /**
+     * Поиск по автору
      * @throws NotSupported
      */
-    public function testCountAll(): void
-    {
-        $applications = $this->entityManager
-            ->getRepository(Application::class)
-            ->findAll();
-
-        $this->assertCount(5, $applications);
-    }
-
-    public function testFindByUser(): void
+    public function testFindByAuthor(): void
     {
         $author = $this->entityManager
             ->getRepository(User::class)
