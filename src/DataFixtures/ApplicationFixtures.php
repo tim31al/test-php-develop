@@ -1,5 +1,11 @@
 <?php
 
+/*
+ *
+ * (c) Alexandr Timofeev <tim31al@gmail.com>
+ *
+ */
+
 namespace App\DataFixtures;
 
 use App\Entity\Application;
@@ -11,19 +17,15 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class ApplicationFixtures extends Fixture
 {
-    const COUNT_APPS = 5;
-    const MAIL_DOMAIN = 'test.com';
+    public const COUNT_APPS = 5;
+    public const MAIL_DOMAIN = 'test.com';
 
     private UserPasswordHasherInterface $passwordHasher;
 
-    /**
-     * @param UserPasswordHasherInterface $passwordHasher
-     */
     public function __construct(UserPasswordHasherInterface $passwordHasher)
     {
         $this->passwordHasher = $passwordHasher;
     }
-
 
     public function load(ObjectManager $manager): void
     {
@@ -37,10 +39,10 @@ class ApplicationFixtures extends Fixture
 
             $application = new Application();
             $application
-                ->setTitle('Title ' . $number)
+                ->setTitle('Title '.$number)
                 ->setText($faker->text())
                 ->setAuthor($author)
-                ;
+            ;
 
             $manager->persist($application);
         }
@@ -56,10 +58,9 @@ class ApplicationFixtures extends Fixture
         $users = [];
 
         foreach (range(1, 2) as $number) {
-
             $user = new User();
 
-            $lastname = $firstname = 'User' . $number;
+            $lastname = $firstname = 'User'.$number;
             $password = $this->passwordHasher->hashPassword($user, $lastname);
             $email = sprintf('%s@%s', mb_strtolower($lastname), self::MAIL_DOMAIN);
 

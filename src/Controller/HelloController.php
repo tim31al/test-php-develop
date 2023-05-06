@@ -1,5 +1,11 @@
 <?php
 
+/*
+ *
+ * (c) Alexandr Timofeev <tim31al@gmail.com>
+ *
+ */
+
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

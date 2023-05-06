@@ -3,6 +3,7 @@
 ##################
 
 DOCKER_COMPOSE = docker compose
+DOCKER_COMPOSE_PHP = docker compose exec -u app php-fpm
 
 ##################
 # Docker compose
@@ -31,30 +32,38 @@ dc_down:
 ##################
 
 app_bash:
-	${DOCKER_COMPOSE} exec -u app php-fpm bash
+	${DOCKER_COMPOSE_PHP} bash
 
 cache:
-	${DOCKER_COMPOSE} exec -u app php-fpm bin/console cache:clear
-	${DOCKER_COMPOSE} exec -u app php-fpm bin/console cache:clear --env=test
+	${DOCKER_COMPOSE_PHP} php bin/console cache:clear
+	${DOCKER_COMPOSE_PHP} php bin/console cache:clear --env=test
 
 test_db_up:
-	${DOCKER_COMPOSE} exec -u app php-fpm php bin/console --env=test doctrine:database:create
+	${DOCKER_COMPOSE_PHP} php bin/console --env=test doctrine:database:create
 
 test_db_update:
-	${DOCKER_COMPOSE} exec -u app php-fpm php bin/console --env=test doctrine:migrations:migrate
+	${DOCKER_COMPOSE_PHP} php bin/console --env=test doctrine:migrations:migrate
 
 fixtures:
-	${DOCKER_COMPOSE} exec -u app php-fpm php bin/console --env=test doctrine:fixtures:load
+	${DOCKER_COMPOSE_PHP} php bin/console --env=test doctrine:fixtures:load
 
 test:
-	${DOCKER_COMPOSE} exec -u app php-fpm php -d xdebug.mode=off bin/phpunit --testdox
+	${DOCKER_COMPOSE_PHP} php -d xdebug.mode=off bin/phpunit --testdox
 
 test_func:
-	${DOCKER_COMPOSE} exec -u app php-fpm php -d xdebug.mode=off vendor/bin/phpunit tests/Functional --testdox
+	${DOCKER_COMPOSE_PHP} php -d xdebug.mode=off vendor/bin/phpunit tests/Functional --testdox
 
 test_unit:
-	${DOCKER_COMPOSE} exec -u app php-fpm php -d xdebug.mode=off vendor/bin/phpunit tests/Unit --testdox
+	${DOCKER_COMPOSE_PHP} php -d xdebug.mode=off vendor/bin/phpunit tests/Unit --testdox
 
 test_api:
-	${DOCKER_COMPOSE} exec -u app php-fpm php -d xdebug.mode=off vendor/bin/phpunit tests/Api --testdox
+	${DOCKER_COMPOSE_PHP} php -d xdebug.mode=off vendor/bin/phpunit tests/Api --testdox
 
+##################
+# Code analysis
+##################
+phpstan:
+	${DOCKER_COMPOSE_PHP} vendor/bin/phpstan analyse src --level 9
+
+cs_fix:
+	${DOCKER_COMPOSE_PHP} vendor/bin/php-cs-fixer fix

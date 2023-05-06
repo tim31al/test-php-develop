@@ -1,5 +1,11 @@
 <?php
 
+/*
+ *
+ * (c) Alexandr Timofeev <tim31al@gmail.com>
+ *
+ */
+
 use Symfony\Component\Dotenv\Dotenv;
 
 require dirname(__DIR__).'/vendor/autoload.php';

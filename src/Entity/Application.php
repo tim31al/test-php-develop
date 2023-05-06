@@ -1,5 +1,11 @@
 <?php
 
+/*
+ *
+ * (c) Alexandr Timofeev <tim31al@gmail.com>
+ *
+ */
+
 namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;

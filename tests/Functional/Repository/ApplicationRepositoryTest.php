@@ -1,5 +1,11 @@
 <?php
 
+/*
+ *
+ * (c) Alexandr Timofeev <tim31al@gmail.com>
+ *
+ */
+
 namespace App\Tests\Functional\Repository;
 
 use App\Entity\Application;
@@ -23,7 +29,8 @@ class ApplicationRepositoryTest extends KernelTestCase
     }
 
     /**
-     * Поиск по названию
+     * Поиск по названию.
+     *
      * @throws NotSupported
      */
     public function testSearchByTitle(): void
@@ -36,7 +43,8 @@ class ApplicationRepositoryTest extends KernelTestCase
     }
 
     /**
-     * Поиск по автору
+     * Поиск по автору.
+     *
      * @throws NotSupported
      */
     public function testFindByAuthor(): void

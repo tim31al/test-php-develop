@@ -1,5 +1,11 @@
 <?php
 
+/*
+ *
+ * (c) Alexandr Timofeev <tim31al@gmail.com>
+ *
+ */
+
 namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -15,6 +21,6 @@ class HelloControllerTest extends WebTestCase
 
         $data = json_decode($client->getResponse()->getContent(), true);
 
-        $this->assertEquals(['message' => 'Hello!'], $data);
+        $this->assertSame(['message' => 'Hello!'], $data);
     }
 }
