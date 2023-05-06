@@ -37,12 +37,24 @@ cache:
 	${DOCKER_COMPOSE} exec -u app php-fpm bin/console cache:clear
 	${DOCKER_COMPOSE} exec -u app php-fpm bin/console cache:clear --env=test
 
+test_db_up:
+	${DOCKER_COMPOSE} exec -u app php-fpm php bin/console --env=test doctrine:database:create
+
+test_db_update:
+	${DOCKER_COMPOSE} exec -u app php-fpm php bin/console --env=test doctrine:migrations:migrate
+
+fixtures:
+	${DOCKER_COMPOSE} exec -u app php-fpm php bin/console --env=test doctrine:fixtures:load
+
 test:
-	${DOCKER_COMPOSE} exec -u app php-fpm -d xdebug.mode=off bin/phpunit --testdox
+	${DOCKER_COMPOSE} exec -u app php-fpm php -d xdebug.mode=off bin/phpunit --testdox
+
+test_func:
+	${DOCKER_COMPOSE} exec -u app php-fpm php -d xdebug.mode=off vendor/bin/phpunit tests/Functional --testdox
 
 test_unit:
-	${DOCKER_COMPOSE} exec -u app php-fpm -d xdebug.mode=off vendor/bin/phpunit tests/Unit --testdox
+	${DOCKER_COMPOSE} exec -u app php-fpm php -d xdebug.mode=off vendor/bin/phpunit tests/Unit --testdox
 
 test_api:
-	${DOCKER_COMPOSE} exec -u app php-fpm -d xdebug.mode=off vendor/bin/phpunit tests/Api --testdox
+	${DOCKER_COMPOSE} exec -u app php-fpm php -d xdebug.mode=off vendor/bin/phpunit tests/Api --testdox
 
