@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ApplicationRepositoryTest extends KernelTestCase
 {
-    private EntityManager $entityManager;
+    private ?EntityManager $entityManager;
 
     protected function setUp(): void
     {
@@ -45,5 +45,14 @@ class ApplicationRepositoryTest extends KernelTestCase
 
         $this->assertCount(5, $applications);
 
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        // doing this is recommended to avoid memory leaks
+        $this->entityManager->close();
+        $this->entityManager = null;
     }
 }
