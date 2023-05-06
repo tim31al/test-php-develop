@@ -33,11 +33,24 @@ services:
       PHP_IDE_CONFIG: "serverName=DebugTestPHP"
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    depends_on:
+      - database
     volumes:
       - ./:/var/www
       - sock_test_php:/var/run
 #      - ./docker/php-fpm8.1/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
       - /docker
+
+  database:
+    image: postgres:${POSTGRES_VERSION:-15}-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
+      POSTGRES_USER: ${POSTGRES_USER:-app}
+    ports:
+      - ${POSTGRES_PORT}:5432
+    volumes:
+      - ./docker/db/data:/var/lib/postgresql/data:rw
 
 volumes:
   sock_test_php:

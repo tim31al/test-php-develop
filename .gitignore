@@ -9,8 +9,6 @@
 /vendor/
 ###< symfony/framework-bundle ###
 
-/.idea/
-*.bak
 ###> symfony/phpunit-bridge ###
 .phpunit.result.cache
 /phpunit.xml
@@ -20,3 +18,7 @@
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
+
+/.idea/
+*.bak
+/docker/db/data/
