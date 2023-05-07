@@ -2,8 +2,8 @@
 # Variables
 ##################
 
-DOCKER_COMPOSE = docker compose
-DOCKER_COMPOSE_PHP = docker compose exec -u app php-fpm
+DOCKER_COMPOSE = docker compose --env-file .env.docker
+DOCKER_COMPOSE_PHP = ${DOCKER_COMPOSE} exec -u app php-fpm
 
 ##################
 # Docker compose
@@ -12,10 +12,10 @@ DOCKER_COMPOSE_PHP = docker compose exec -u app php-fpm
 build:
 	${DOCKER_COMPOSE} build
 
-up:
+dc_up:
 	${DOCKER_COMPOSE} up -d --remove-orphans
 
-down:
+dc_down:
 	${DOCKER_COMPOSE} down
 
 dc_ps:
@@ -24,7 +24,7 @@ dc_ps:
 dc_logs:
 	${DOCKER_COMPOSE} logs -f
 
-dc_down:
+dc_drop:
 	${DOCKER_COMPOSE} down -v --rmi=all --remove-orphans
 
 ##################
@@ -38,14 +38,17 @@ cache:
 	${DOCKER_COMPOSE_PHP} php bin/console cache:clear
 	${DOCKER_COMPOSE_PHP} php bin/console cache:clear --env=test
 
+fixtures:
+	${DOCKER_COMPOSE_PHP} php bin/console doctrine:fixtures:load --group=AppFixtures
+
 test_db_up:
 	${DOCKER_COMPOSE_PHP} php bin/console --env=test doctrine:database:create
 
 test_db_update:
 	${DOCKER_COMPOSE_PHP} php bin/console --env=test doctrine:migrations:migrate
 
-fixtures:
-	${DOCKER_COMPOSE_PHP} php bin/console --env=test doctrine:fixtures:load
+test_fixtures:
+	${DOCKER_COMPOSE_PHP} php bin/console --env=test doctrine:fixtures:load --group=TestFixtures -q
 
 test:
 	${DOCKER_COMPOSE_PHP} php -d xdebug.mode=off bin/phpunit --testdox

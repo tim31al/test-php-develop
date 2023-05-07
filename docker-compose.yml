@@ -52,6 +52,13 @@ services:
     volumes:
       - ./docker/db/data:/var/lib/postgresql/data:rw
 
+  mailcatcher:
+    hostname: mailcatcher
+    image: jeanberu/mailcatcher
+    ports:
+      - ${SMTP_PORT}:1025
+      - ${SMTP_WEB_PORT}:1080
+
 volumes:
   sock_test_php:
 

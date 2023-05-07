@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello!{% endblock %}
+
+{% block body %}
+<div>
+    {% if not app.user %}
+        <p><a href="{{ path('app_register') }}">Register</a></p>
+        <p><a href="{{ path('app_login') }}">Login</a></p>
+    {% elseif app.user.isVerified %}
+        <p><a href="#">Docs</a></p>
+        <p><a href="{{ path('app_logout') }}">Logout</a></p>
+    {% endif %}
+</div>
+{% endblock %}
