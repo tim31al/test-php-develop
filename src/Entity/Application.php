@@ -13,6 +13,7 @@ use App\Entity\Traits\UpdatedAtTrait;
 use App\Repository\ApplicationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ApplicationRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -24,12 +25,15 @@ class Application
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['list', 'show'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['list', 'show'])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['show'])]
     private ?string $text = null;
 
     #[ORM\ManyToOne]

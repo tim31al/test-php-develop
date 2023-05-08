@@ -20,7 +20,7 @@ class MailerService
     public function __construct(private readonly MailerInterface $mailer, private readonly string $fromEmail)
     {
     }
-    
+
     public function getFromAddress(): Address
     {
         return new Address($this->fromEmail, self::ADDRESS_NAME);

@@ -1,7 +1,12 @@
 <?php
 
-namespace App\Tests\Functional\Service;
+/*
+ *
+ * (c) Alexandr Timofeev <tim31al@gmail.com>
+ *
+ */
 
+namespace App\Tests\Functional\Service;
 
 use App\Service\MailerService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -42,7 +47,7 @@ class MailerServiceTest extends KernelTestCase
         $this->assertEmailCount(1);
 
         $email = $this->getMailerMessage();
-        $this->assertEmailHtmlBodyContains($email,'Welcome!');
+        $this->assertEmailHtmlBodyContains($email, 'Welcome!');
     }
 
     protected function tearDown(): void

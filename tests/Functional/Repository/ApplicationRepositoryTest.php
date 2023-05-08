@@ -57,7 +57,7 @@ class ApplicationRepositoryTest extends KernelTestCase
             ->getRepository(Application::class)
             ->findBy(['author' => $author]);
 
-        $this->assertCount(3, $applications);
+        $this->assertCount(10, $applications);
     }
 
     protected function tearDown(): void

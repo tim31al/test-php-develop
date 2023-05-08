@@ -49,6 +49,7 @@ abstract class AbstractFixtures extends Fixture
                 ->setFirstname($firstname)
                 ->setPassword($password)
                 ->setDateOfBirth($dateOfBirth)
+                ->setIsVerified(true)
             ;
 
             $manager->persist($user);

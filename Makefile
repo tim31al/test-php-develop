@@ -41,6 +41,9 @@ cache:
 fixtures:
 	${DOCKER_COMPOSE_PHP} php bin/console doctrine:fixtures:load --group=AppFixtures
 
+keypair:
+	${DOCKER_COMPOSE_PHP} php bin/console lexik:jwt:generate-keypair
+
 test_db_up:
 	${DOCKER_COMPOSE_PHP} php bin/console --env=test doctrine:database:create
 

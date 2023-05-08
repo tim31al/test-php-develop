@@ -25,3 +25,12 @@ services:
 
     App\Service\MailerService:
         arguments: ['@mailer', '%env(string:FROM_EMAIL)%']
+
+    # проверка, пользователь верифицирован
+    App\EventListener\AuthenticationSuccessListener:
+        tags:
+          - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }
+
+    #
+    App\EventListener\ExceptionListener:
+        tags: [ kernel.event_listener ]
