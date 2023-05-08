@@ -13,7 +13,6 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
 trait HelperTrait
 {
-
     protected function createAuthenticatedClient(string $username = 'user1@test.com', string $password = 'User1', $client = null): KernelBrowser
     {
         if (null === $client) {

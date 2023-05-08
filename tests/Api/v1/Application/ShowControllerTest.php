@@ -1,5 +1,11 @@
 <?php
 
+/*
+ *
+ * (c) Alexandr Timofeev <tim31al@gmail.com>
+ *
+ */
+
 namespace App\Tests\Api\v1\Application;
 
 use App\Tests\Api\HelperTrait;
@@ -17,7 +23,7 @@ class ShowControllerTest extends WebTestCase
         list($app) = $this->getData($client);
         $id = $app['id'];
 
-        $client->request('GET', '/api/v1/applications/' . $id );
+        $client->request('GET', '/api/v1/applications/'.$id);
 
         $this->assertResponseIsSuccessful();
 
@@ -41,7 +47,7 @@ class ShowControllerTest extends WebTestCase
 
         $client = $this->createAuthenticatedClient('user2@test.com', 'User2', $client);
 
-        $client->request('GET', '/api/v1/applications/' . $id );
+        $client->request('GET', '/api/v1/applications/'.$id);
 
         $this->assertResponseStatusCodeSame(404);
     }
@@ -56,7 +62,7 @@ class ShowControllerTest extends WebTestCase
 
         $client = $this->createAuthenticatedClient('admin@test.com', 'Admin', $client);
 
-        $client->request('GET', '/api/v1/applications/' . $id );
+        $client->request('GET', '/api/v1/applications/'.$id);
         $this->assertResponseIsSuccessful();
     }
 }

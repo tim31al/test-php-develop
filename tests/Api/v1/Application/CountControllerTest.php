@@ -1,5 +1,11 @@
 <?php
 
+/*
+ *
+ * (c) Alexandr Timofeev <tim31al@gmail.com>
+ *
+ */
+
 namespace App\Tests\Api\v1\Application;
 
 use App\Tests\Api\HelperTrait;

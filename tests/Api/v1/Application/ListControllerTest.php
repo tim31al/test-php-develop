@@ -1,5 +1,11 @@
 <?php
 
+/*
+ *
+ * (c) Alexandr Timofeev <tim31al@gmail.com>
+ *
+ */
+
 namespace App\Tests\Api\v1\Application;
 
 use App\Tests\Api\HelperTrait;
@@ -8,7 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class ListControllerTest extends WebTestCase
 {
     use HelperTrait;
-
 
     public function testListAll(): void
     {
@@ -37,8 +42,8 @@ class ListControllerTest extends WebTestCase
 
         $number = 3;
         foreach ($data as $application) {
-            $this->assertSame('Title ' . $number, $application['title']);
-            $number++;
+            $this->assertSame('Title '.$number, $application['title']);
+            ++$number;
         }
     }
 
@@ -56,8 +61,8 @@ class ListControllerTest extends WebTestCase
 
         $number = 5;
         foreach ($data as $application) {
-            $this->assertSame('Title ' . $number, $application['title']);
-            $number--;
+            $this->assertSame('Title '.$number, $application['title']);
+            --$number;
         }
     }
 

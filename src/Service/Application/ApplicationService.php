@@ -12,7 +12,6 @@ use App\DTO\ApplicationDTO;
 use App\DTO\ApplicationListDTO;
 use App\DTO\ApplicationsCountDTO;
 use App\DTO\BadRequestDTO;
-use App\DTO\ForbiddenDTO;
 use App\DTO\InternalServerErrorDTO;
 use App\DTO\NotFoundDTO;
 use App\DTO\ResponseDTOInterface;
@@ -46,10 +45,7 @@ class ApplicationService
             $sort = $request->query->getAlpha('sort', 'asc');
 
             if (!\in_array($sort, self::SORT_LIST, true)) {
-                $message = sprintf(
-                    'Unsupported sort format. Available: %s',
-                    implode(', ', self::SORT_LIST)
-                );
+                $message = sprintf('Unsupported sort format. Available: %s', implode(', ', self::SORT_LIST));
 
                 return new BadRequestDTO(['sort' => $message]);
             }
@@ -99,13 +95,6 @@ class ApplicationService
             ) {
                 return new NotFoundDTO();
             }
-
-//            if (
-//                !$this->security->isGranted('ROLE_ADMIN') &&
-//                $application->getAuthor() !== $this->security->getUser()
-//            ) {
-//                return new ForbiddenDTO();
-//            }
 
             return new ApplicationDTO($application);
         } catch (\Throwable $e) {
