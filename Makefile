@@ -69,7 +69,7 @@ test_api:
 # Code analysis
 ##################
 phpstan:
-	${DOCKER_COMPOSE_PHP} vendor/bin/phpstan analyse src --level 9
+	${DOCKER_COMPOSE_PHP} vendor/bin/phpstan analyse -c phpstan.neon
 
 cs_fix:
 	${DOCKER_COMPOSE_PHP} vendor/bin/php-cs-fixer fix

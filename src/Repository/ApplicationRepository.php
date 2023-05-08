@@ -10,7 +10,10 @@ namespace App\Repository;
 
 use App\Entity\Application;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @extends ServiceEntityRepository<Application>
@@ -43,6 +46,48 @@ class ApplicationRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    /**
+     * @return mixed|Application[] Returns an array of Application objects
+     */
+    public function findByUser(int $limit, int $offset, ?UserInterface $author = null, string $sort = 'ASC'): mixed
+    {
+        $queryBuilder = $this->createQueryBuilder('a')
+            ->orderBy('a.id', $sort)
+            ->setMaxResults($limit)
+            ->setFirstResult($offset);
+
+        if (null !== $author) {
+            $queryBuilder
+                ->andWhere('a.author = :author')
+                ->setParameter('author', $author);
+        }
+
+        return $queryBuilder
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function findCountByUser(?UserInterface $author = null): mixed
+    {
+        $queryBuilder = $this->createQueryBuilder('a')
+            ->select('COUNT(a.id)');
+
+        if (null !== $author) {
+            $queryBuilder
+                ->andWhere('a.author = :author')
+                ->setParameter('author', $author);
+        }
+
+        return $queryBuilder
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
 //    /**

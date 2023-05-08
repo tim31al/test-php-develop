@@ -12,6 +12,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class LoginTest extends WebTestCase
 {
+    use HelperTrait;
+
     public function testLoginSuccess(): void
     {
         $client = static::createClient();
@@ -30,7 +32,7 @@ class LoginTest extends WebTestCase
 
         $this->assertResponseIsSuccessful();
 
-        $data = json_decode($client->getResponse()->getContent(), true);
+        $data = $this->getData($client);
 
         $this->assertArrayHasKey('token', $data);
     }
@@ -53,7 +55,7 @@ class LoginTest extends WebTestCase
 
         $this->assertResponseStatusCodeSame(401);
 
-        $data = json_decode($client->getResponse()->getContent(), true);
+        $data = $this->getData($client);
 
         $this->assertArrayHasKey('message', $data);
         $this->assertSame('Invalid credentials.', $data['message']);
@@ -77,7 +79,7 @@ class LoginTest extends WebTestCase
 
         $this->assertResponseStatusCodeSame(403);
 
-        $data = json_decode($client->getResponse()->getContent(), true);
+        $data = $this->getData($client);
 
         $this->assertArrayHasKey('error', $data);
         $this->assertSame('Not verified.', $data['error']);

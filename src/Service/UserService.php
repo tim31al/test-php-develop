@@ -11,7 +11,6 @@ namespace App\Service;
 use App\Entity\User;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -26,7 +25,7 @@ class UserService
         private readonly UserPasswordHasherInterface $passwordHasher,
         private readonly EntityManagerInterface $entityManager,
         private readonly EmailVerifier $emailVerifier,
-        private readonly LoggerInterface $logger
+        private readonly LoggerService $logger
     ) {
     }
 
@@ -56,10 +55,7 @@ class UserService
 
             return true;
         } catch (\Throwable $e) {
-            $this->logger->error($e->getMessage(), [
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-            ]);
+            $this->logger->error(__METHOD__, $e);
 
             return false;
         }

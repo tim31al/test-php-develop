@@ -19,16 +19,17 @@ class TestFixtures extends AbstractFixtures
 
     public function load(ObjectManager $manager): void
     {
-        list($user1, $user2, $notVerified) = $this->makeUsers(self::USERNAMES, $manager);
+        list($user1, $user2, $notVerified, $admin) = $this->makeUsers(self::USERNAMES, $manager);
 
         $notVerified->setIsVerified(false);
+        $admin->setRoles(['ROLE_ADMIN']);
 
         foreach (range(1, self::COUNT_APPS_USER1) as $number) {
             $author = $user1;
 
             $application = new Application();
             $application
-                ->setTitle('Title '.$number)
+                ->setTitle(sprintf('Title %s', $number))
                 ->setText($this->faker->text())
                 ->setAuthor($author);
 

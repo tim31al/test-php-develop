@@ -13,10 +13,8 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
 trait HelperTrait
 {
-    // ['test_ozon@mail.com', 'ozon_0123456789'],
-    // ['test_dns@mail.com', 'dns_0123456789']а
 
-    protected function createAuthenticatedClient(string $username = 'test_ozon@mail.com', string $password = 'ozon_0123456789', $client = null)
+    protected function createAuthenticatedClient(string $username = 'user1@test.com', string $password = 'User1', $client = null): KernelBrowser
     {
         if (null === $client) {
             $client = static::createClient();
@@ -24,7 +22,7 @@ trait HelperTrait
 
         $client->request(
             'POST',
-            '/api/v1/login_check',
+            '/api/login_check',
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
@@ -34,7 +32,7 @@ trait HelperTrait
             ])
         );
 
-        $data = json_decode($client->getResponse()->getContent(), true);
+        $data = $this->getData($client);
 
         $client->setServerParameter('HTTP_Authorization', sprintf('Bearer %s', $data['token']));
 
@@ -49,5 +47,10 @@ trait HelperTrait
         $client->setServerParameter('HTTP_Authorization', sprintf('Bearer %s', $encoder->encode($claims)));
 
         return $client;
+    }
+
+    protected function getData(KernelBrowser $client): array
+    {
+        return json_decode($client->getResponse()->getContent(), true);
     }
 }
