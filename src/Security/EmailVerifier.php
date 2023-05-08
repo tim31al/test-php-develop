@@ -11,6 +11,7 @@ namespace App\Security;
 use App\Entity\User;
 use App\Service\MailerService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
@@ -30,7 +31,7 @@ class EmailVerifier
      */
     public function sendEmailConfirmation(string $verifyEmailRouteName, User $user): void
     {
-        $email = $this->mailerService->getConfirmationEmail($user);
+        $email = $this->getConfirmationEmail($user);
 
         $signatureComponents = $this->verifyEmailHelper->generateSignature(
             $verifyEmailRouteName,
@@ -63,5 +64,24 @@ class EmailVerifier
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
+    }
+
+    private function getConfirmationEmail(User $user): TemplatedEmail
+    {
+        $address = $this->mailerService->getFromAddress();
+        $confirmationEmail = new TemplatedEmail();
+
+        $email = $user->getEmail();
+        if (null === $email) {
+            throw new \InvalidArgumentException('User email empty.');
+        }
+
+        $confirmationEmail
+            ->from($address)
+            ->to($email)
+            ->subject('Please Confirm your Email')
+            ->htmlTemplate('registration/confirmation_email.html.twig');
+
+        return $confirmationEmail;
     }
 }

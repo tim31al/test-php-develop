@@ -8,8 +8,6 @@
 
 namespace App\Service;
 
-use App\Entity\User;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
@@ -22,6 +20,11 @@ class MailerService
     public function __construct(private readonly MailerInterface $mailer, private readonly string $fromEmail)
     {
     }
+    
+    public function getFromAddress(): Address
+    {
+        return new Address($this->fromEmail, self::ADDRESS_NAME);
+    }
 
     /**
      * @throws TransportExceptionInterface
@@ -29,24 +32,5 @@ class MailerService
     public function send(RawMessage $message): void
     {
         $this->mailer->send($message);
-    }
-
-    public function getConfirmationEmail(User $user): TemplatedEmail
-    {
-        $address = new Address($this->fromEmail, self::ADDRESS_NAME);
-        $confirmationEmail = new TemplatedEmail();
-
-        $email = $user->getEmail();
-        if (null === $email) {
-            throw new \InvalidArgumentException('User email empty.');
-        }
-
-        $confirmationEmail
-            ->from($address)
-            ->to($email)
-            ->subject('Please Confirm your Email')
-            ->htmlTemplate('registration/confirmation_email.html.twig');
-
-        return $confirmationEmail;
     }
 }
