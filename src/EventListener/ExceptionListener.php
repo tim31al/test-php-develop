@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 /**
  * Для api вернуть JsonResponse.
  */
-class ExceptionListener
+final class ExceptionListener
 {
     public function __invoke(ExceptionEvent $event): void
     {

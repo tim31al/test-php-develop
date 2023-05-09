@@ -9,13 +9,13 @@
 namespace App\Controller\Api\v1\Application;
 
 use App\DTO\ResponseDTOInterface;
-use App\Service\Application\ApplicationService;
+use App\Service\Application\ApplicationServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 abstract class AbstractApiController extends AbstractController
 {
-    public function __construct(protected readonly ApplicationService $applicationService)
+    public function __construct(protected readonly ApplicationServiceInterface $applicationService)
     {
     }
 

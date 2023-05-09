@@ -25,7 +25,7 @@ class Application
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['list', 'show'])]
+    #[Groups(['list', 'show', 'created'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]

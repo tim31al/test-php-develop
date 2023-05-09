@@ -16,12 +16,18 @@ class LoggerService
     {
     }
 
-    public function error(string $prefix, \Throwable $e): void
+    /**
+     * @param array<string, string|int> $errorContext
+     */
+    public function error(string $prefix, \Throwable $e, array $errorContext = []): void
     {
         $message = sprintf('%s %s', $prefix, $e->getMessage());
-        $this->logger->error($message, [
+
+        $context = array_merge([
             'file' => $e->getFile(),
             'line' => $e->getLine(),
-        ]);
+        ], $errorContext);
+
+        $this->logger->error($message, $context);
     }
 }

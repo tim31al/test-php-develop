@@ -15,7 +15,7 @@ use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
 /**
  * Проверка, что пользователь верифицирован.
  */
-class AuthenticationSuccessListener
+final class AuthenticationSuccessListener
 {
     /**
      * @throws NotVerifiedException

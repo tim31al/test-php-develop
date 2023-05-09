@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 class BadRequestDTO extends AbstractResponseDTO
 {
     /**
-     * @param array<string, string> $errors
+     * @param array<string|int, string> $errors
      */
     public function __construct(array $errors)
     {

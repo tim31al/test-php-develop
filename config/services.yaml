@@ -19,6 +19,7 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+            - '../src/DTO'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
@@ -26,11 +27,13 @@ services:
     App\Service\MailerService:
         arguments: ['@mailer', '%env(string:FROM_EMAIL)%']
 
-    # проверка, пользователь верифицирован
+    # Проверка, пользователь верифицирован
     App\EventListener\AuthenticationSuccessListener:
         tags:
           - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }
 
-    #
+    # Для api, выход в json
     App\EventListener\ExceptionListener:
-        tags: [ kernel.event_listener ]
+        tags:
+          - { name: kernel.event_listener }
+

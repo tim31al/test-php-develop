@@ -54,7 +54,7 @@ test_fixtures:
 	${DOCKER_COMPOSE_PHP} php bin/console --env=test doctrine:fixtures:load --group=TestFixtures -q
 
 test:
-	${DOCKER_COMPOSE_PHP} php -d xdebug.mode=off bin/phpunit --testdox
+	${DOCKER_COMPOSE_PHP} php -d xdebug.mode=coverage bin/phpunit --testdox --coverage-html var/coverage/ --coverage-cache var/cache/coverage/
 
 test_func:
 	${DOCKER_COMPOSE_PHP} php -d xdebug.mode=off vendor/bin/phpunit tests/Functional --testdox
