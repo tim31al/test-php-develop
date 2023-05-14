@@ -16,6 +16,6 @@ class InternalServerErrorDTO extends AbstractResponseDTO
 
     public function __construct()
     {
-        parent::__construct(['error' => static::ERROR], Response::HTTP_INTERNAL_SERVER_ERROR);
+        parent::__construct(['error' => self::ERROR], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }

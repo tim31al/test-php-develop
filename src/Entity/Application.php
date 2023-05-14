@@ -15,6 +15,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use OpenApi\Attributes as OA;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ApplicationRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -41,6 +42,11 @@ class Application
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[Groups(['show'])]
+    #[Assert\Valid]
+    private ?ApplicationFile $file = null;
 
     public function getId(): ?int
     {
@@ -79,6 +85,18 @@ class Application
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getFile(): ?ApplicationFile
+    {
+        return $this->file;
+    }
+
+    public function setFile(?ApplicationFile $file): self
+    {
+        $this->file = $file;
 
         return $this;
     }

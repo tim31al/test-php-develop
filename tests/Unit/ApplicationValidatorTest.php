@@ -8,22 +8,22 @@
 
 namespace App\Tests\Unit;
 
-use App\Service\Application\ApplicationValidator;
+use App\Service\Application\Validator;
 use PHPUnit\Framework\TestCase;
 
 class ApplicationValidatorTest extends TestCase
 {
-    private ApplicationValidator $validator;
+    private Validator $validator;
 
     protected function setUp(): void
     {
-        $this->validator = new ApplicationValidator();
+        $this->validator = new Validator();
         parent::setUp();
     }
 
     public function testInstanceCreated(): void
     {
-        $this->assertInstanceOf(ApplicationValidator::class, $this->validator);
+        $this->assertInstanceOf(Validator::class, $this->validator);
     }
 
     /**
@@ -31,7 +31,7 @@ class ApplicationValidatorTest extends TestCase
      */
     public function testValidateStrict(array $data, int $expectedCountErrors): void
     {
-        $errors = $this->validator->validate($data);
+        $errors = $this->validator->validateApplication($data);
         $this->assertCount($expectedCountErrors, $errors);
     }
 
@@ -40,7 +40,7 @@ class ApplicationValidatorTest extends TestCase
      */
     public function testValidateNotStrict(array $data, int $expectedCountErrors): void
     {
-        $errors = $this->validator->validate($data, false);
+        $errors = $this->validator->validateApplication($data, false);
         $this->assertCount($expectedCountErrors, $errors);
     }
 

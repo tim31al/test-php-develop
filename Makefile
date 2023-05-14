@@ -30,6 +30,12 @@ dc_drop:
 ##################
 # App
 ##################
+init: app_init test_init
+
+app_init: dc_up install db_update keypair fixtures
+
+install:
+	docker compose --env-file .env.docker exec php-fpm composer install
 
 app_bash:
 	${DOCKER_COMPOSE_PHP} bash
@@ -39,16 +45,25 @@ cache:
 	${DOCKER_COMPOSE_PHP} php bin/console cache:clear --env=test
 
 fixtures:
-	${DOCKER_COMPOSE_PHP} php bin/console doctrine:fixtures:load --group=AppFixtures
+	${DOCKER_COMPOSE_PHP} php bin/console doctrine:fixtures:load --group=AppFixtures -q
 
 keypair:
-	${DOCKER_COMPOSE_PHP} php bin/console lexik:jwt:generate-keypair
+	docker compose --env-file .env.docker exec php-fpm php bin/console lexik:jwt:generate-keypair
+
+db_update:
+	${DOCKER_COMPOSE_PHP} php bin/console doctrine:migrations:migrate -q
+
+##################
+# App Test
+##################
+
+test_init: test_db_up test_db_update test_fixtures
 
 test_db_up:
 	${DOCKER_COMPOSE_PHP} php bin/console --env=test doctrine:database:create
 
 test_db_update:
-	${DOCKER_COMPOSE_PHP} php bin/console --env=test doctrine:migrations:migrate
+	${DOCKER_COMPOSE_PHP} php bin/console --env=test doctrine:migrations:migrate -q
 
 test_fixtures:
 	${DOCKER_COMPOSE_PHP} php bin/console --env=test doctrine:fixtures:load --group=TestFixtures -q

@@ -12,15 +12,18 @@ use App\DTO\ApplicationCreatedDTO;
 use App\DTO\ApplicationDTO;
 use App\DTO\ApplicationListDTO;
 use App\DTO\ApplicationsCountDTO;
+use App\DTO\ApplicationUploadDTO;
 use App\DTO\BadRequestDTO;
 use App\DTO\InternalServerErrorDTO;
 use App\DTO\NotFoundDTO;
 use App\DTO\ResponseDTOInterface;
 use App\DTO\SuccessDTO;
 use App\Entity\Application;
+use App\Entity\ApplicationFile;
 use App\Entity\User;
 use App\Repository\ApplicationRepository;
 use App\Service\LoggerService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -39,8 +42,9 @@ class ApplicationService implements ApplicationServiceInterface
         private readonly Security $security,
         private readonly ApplicationRepository $repository,
         private readonly LoggerService $logger,
-        private readonly ApplicationValidator $validator,
+        private readonly Validator $validator,
         private readonly ApplicationBuilder $builder,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -115,7 +119,7 @@ class ApplicationService implements ApplicationServiceInterface
         try {
             $data = json_decode($request->getContent(), true) ?? [];
 
-            $errors = $this->validator->validate($data);
+            $errors = $this->validator->validateApplication($data);
             if (0 !== \count($errors)) {
                 return new BadRequestDTO($errors);
             }
@@ -171,7 +175,7 @@ class ApplicationService implements ApplicationServiceInterface
 
             $data = json_decode($request->getContent(), true) ?? [];
 
-            $errors = $this->validator->validate($data, false);
+            $errors = $this->validator->validateApplication($data, false);
             if (0 !== \count($errors)) {
                 return new BadRequestDTO($errors);
             }
@@ -181,6 +185,43 @@ class ApplicationService implements ApplicationServiceInterface
             $this->repository->save($application, true);
 
             return new SuccessDTO();
+        } catch (\Throwable $e) {
+            $context = $this->getErrorContext($application);
+            $this->logger->error(__METHOD__, $e, $context);
+
+            return new InternalServerErrorDTO();
+        }
+    }
+
+    /**
+     * Загрузка файла.
+     */
+    public function upload(Request $request): ResponseDTOInterface
+    {
+        $application = null;
+        try {
+            $application = $this->findApplication($request);
+            if (null === $application || !$this->assertUserApplicationOwner($application)) {
+                return new NotFoundDTO();
+            }
+
+            $data = $request->files->all();
+            $errors = $this->validator->validateFile($data);
+            if (0 !== \count($errors)) {
+                return new BadRequestDTO($errors);
+            }
+
+            $uploadedFile = $request->files->get('file');
+
+            $applicationFile = new ApplicationFile();
+            $applicationFile->setFile($uploadedFile);
+
+            $application->setFile($applicationFile);
+
+            $this->entityManager->persist($applicationFile);
+            $this->entityManager->flush();
+
+            return new ApplicationUploadDTO($application);
         } catch (\Throwable $e) {
             $context = $this->getErrorContext($application);
             $this->logger->error(__METHOD__, $e, $context);

@@ -24,4 +24,6 @@ interface ApplicationServiceInterface
     public function delete(Request $request): ResponseDTOInterface;
 
     public function update(Request $request): ResponseDTOInterface;
+
+    public function upload(Request $request): ResponseDTOInterface;
 }

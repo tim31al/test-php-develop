@@ -9,7 +9,6 @@
 namespace App\Controller\Api\v1\Application;
 
 use Nelmio\ApiDocBundle\Annotation\Security;
-use Nelmio\ApiDocBundle\Model\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

@@ -26,3 +26,5 @@
 /.idea/
 *.bak
 /docker/db/data/
+
+/public/upload/

@@ -16,6 +16,6 @@ class NotFoundDTO extends AbstractResponseDTO
 
     public function __construct()
     {
-        parent::__construct(['error' => static::ERROR], Response::HTTP_NOT_FOUND);
+        parent::__construct(['error' => self::ERROR], Response::HTTP_NOT_FOUND);
     }
 }
