@@ -25,7 +25,7 @@ dc_logs:
 	${DOCKER_COMPOSE} logs -f
 
 dc_drop:
-	${DOCKER_COMPOSE} down -v --rmi=all --remove-orphans
+	${DOCKER_COMPOSE} down -v
 
 ##################
 # App
