@@ -19,7 +19,7 @@ class CountController extends AbstractApiController
     #[OA\Response(
         response: 200,
         description: 'Count applications',
-        content: new OA\JsonContent(type: 'object', example: ['count' => '5'])
+        content: new OA\JsonContent(ref: '#/components/schemas/Count')
     )]
     #[Security(name: 'Bearer')]
     #[OA\Tag(name: 'Applications')]

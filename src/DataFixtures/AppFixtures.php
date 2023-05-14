@@ -22,30 +22,6 @@ class AppFixtures extends AbstractFixtures
     {
         list($ivanov, $petrov, $sidorov) = $this->makeUsers(self::USERS, $manager);
 
-        //        foreach (range(1, self::COUNT_APPS) as $number) {
-        //            /*
-        //             * Количество заявок
-        //             * Ivanov - 100
-        //             * Petrov - 50
-        //             * Sidorov - 20
-        //             */
-        //            if ($number <= 100) {
-        //                $author = $ivanov;
-        //            } elseif ($number <= 150) {
-        //                $author = $petrov;
-        //            } else {
-        //                $author = $sidorov;
-        //            }
-        //
-        //            $application = new Application();
-        //            $application
-        //                ->setTitle(sprintf('Title %d', $number))
-        //                ->setText($this->faker->text())
-        //                ->setAuthor($author);
-        //
-        //            $manager->persist($application);
-        //        }
-        //
         foreach (self::COUNT_APPS as $idx => $count) {
             $author = match ($idx) {
                 0 => $ivanov,

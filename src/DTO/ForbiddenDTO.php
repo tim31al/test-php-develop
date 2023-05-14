@@ -12,8 +12,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ForbiddenDTO extends AbstractResponseDTO
 {
+    private const ERROR = 'Forbidden.';
+
     public function __construct()
     {
-        parent::__construct(['error' => 'Forbidden.'], Response::HTTP_FORBIDDEN);
+        parent::__construct(['error' => static::ERROR], Response::HTTP_FORBIDDEN);
     }
 }

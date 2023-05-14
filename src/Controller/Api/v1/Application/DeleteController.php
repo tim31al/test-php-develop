@@ -9,6 +9,7 @@
 namespace App\Controller\Api\v1\Application;
 
 use Nelmio\ApiDocBundle\Annotation\Security;
+use Nelmio\ApiDocBundle\Model\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,13 +20,13 @@ class DeleteController extends AbstractApiController
 {
     #[OA\Response(
         response: 200,
-        description: 'Returns application',
-        content: new OA\JsonContent(type: 'object', example: ['success' => true])
+        description: 'Returns success',
+        content: new OA\JsonContent(ref: '#/components/schemas/Success')
     )]
     #[OA\Response(
         response: 404,
         description: 'Not found',
-        content: new OA\JsonContent(type: 'object', example: ['error' => 'Not found.'])
+        content: new OA\JsonContent(ref: '#/components/schemas/NotFound')
     )]
     #[Security(name: 'Bearer')]
     #[OA\Tag(name: 'Applications')]

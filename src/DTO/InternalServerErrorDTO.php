@@ -12,8 +12,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class InternalServerErrorDTO extends AbstractResponseDTO
 {
+    private const ERROR = 'Internal Server Error.';
+
     public function __construct()
     {
-        parent::__construct(['error' => 'Internal Server Error.'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        parent::__construct(['error' => static::ERROR], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }

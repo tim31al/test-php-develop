@@ -28,7 +28,7 @@ class CreateController extends AbstractApiController
     #[OA\Response(
         response: 400,
         description: 'Returns errors',
-        content: new OA\JsonContent(type: 'object', example: ['errors' => ['title' => 'This field is missing']])
+        content: new OA\JsonContent(ref: '#/components/schemas/BadRequest')
     )]
     #[Security(name: 'Bearer')]
     #[OA\Tag(name: 'Applications')]

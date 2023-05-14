@@ -12,8 +12,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class NotFoundDTO extends AbstractResponseDTO
 {
+    private const ERROR = 'Not found.';
+
     public function __construct()
     {
-        parent::__construct(['error' => 'Not found.'], Response::HTTP_NOT_FOUND);
+        parent::__construct(['error' => static::ERROR], Response::HTTP_NOT_FOUND);
     }
 }

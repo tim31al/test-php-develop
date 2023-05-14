@@ -23,17 +23,17 @@ class UpdateController extends AbstractApiController
     #[OA\Response(
         response: 200,
         description: 'Returns success',
-        content: new OA\JsonContent(type: 'object', example: ['success' => true])
+        content: new OA\JsonContent(ref: '#/components/schemas/Success')
     )]
     #[OA\Response(
         response: 400,
         description: 'Returns errors',
-        content: new OA\JsonContent(type: 'object', example: ['errors' => ['title' => 'This field is missing']])
+        content: new OA\JsonContent(ref: '#/components/schemas/BadRequest')
     )]
     #[OA\Response(
         response: 404,
         description: 'Not found',
-        content: new OA\JsonContent(type: 'object', example: ['error' => 'Not found'])
+        content: new OA\JsonContent(ref: '#/components/schemas/NotFound')
     )]
     #[Security(name: 'Bearer')]
     #[OA\Tag(name: 'Applications')]

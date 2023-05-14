@@ -7,6 +7,17 @@
     {% if not app.user %}
         <p><a href="{{ path('app_register') }}">Register</a></p>
         <p><a href="{{ path('app_login') }}">Login</a></p>
+            <div class="bg-light p-4 mt-4">
+                    <p class="title">Test user</p>
+                    <div class="row">
+                            <div class="col-md-2">Username:</div>
+                            <div class="col-md-2">ivanov@mail.com</div>
+                    </div>
+                    <div class="row">
+                            <div class="col-md-2">Password:</div>
+                            <div class="col-md-2">Ivanov</div>
+                    </div>
+            </div>
     {% elseif app.user.isVerified %}
         <p><a href="{{ path('app.swagger_ui') }}">Docs</a></p>
         <p><a href="{{ path('app_logout') }}">Logout</a></p>

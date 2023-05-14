@@ -27,7 +27,7 @@ class ShowController extends AbstractApiController
     #[OA\Response(
         response: 404,
         description: 'Not found',
-        content: new OA\JsonContent(type: 'object', example: ['error' => 'Not found'])
+        content: new OA\JsonContent(ref: '#/components/schemas/NotFound')
     )]
     #[Security(name: 'Bearer')]
     #[OA\Tag(name: 'Applications')]

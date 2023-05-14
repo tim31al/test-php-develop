@@ -8,7 +8,7 @@
 
 namespace App\DTO;
 
-class AbstractResponseDTO implements ResponseDTOInterface
+abstract class AbstractResponseDTO implements ResponseDTOInterface
 {
     /**
      * @param array<string, array<string>> $context

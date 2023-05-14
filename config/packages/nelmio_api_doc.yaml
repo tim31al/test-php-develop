@@ -7,7 +7,7 @@ nelmio_api_doc:
 
         info:
             title: Test App
-            description: This is an awesome app!
+            description: Test work!
             version: 1.0.0
 
         components:
@@ -17,15 +17,15 @@ nelmio_api_doc:
                     scheme: bearer
                     bearerFormat: JWT
             schemas:
-                User:
+                Credentials:
                     type: object
                     properties:
                         username:
                             type: string
-                            example: test@mail.com
+                            example: ivanov@company.com
                         password:
                             type: string
-                            example: my_password
+                            example: Ivanov
                     required:
                         - username
                         - password
@@ -43,20 +43,55 @@ nelmio_api_doc:
                         message:
                             type: string
 
+                Success:
+                    type: object
+                    properties:
+                        success:
+                            type: boolean
+                    example: { "success": true }
+
+                NotFound:
+                    type: object
+                    properties:
+                        error:
+                            type: string
+                    example: { "error": "Not found." }
+
+                Forbidden:
+                    type: object
+                    properties:
+                        error:
+                            type: string
+                    example: { "error": "Forbidden." }
+
+                Count:
+                    type: object
+                    properties:
+                        count:
+                            type: integer
+                    example: { "count": 5 }
+
+                BadRequest:
+                    type: object
+                    properties:
+                        errors:
+                            type: object
+                    example: { "errors": {"title": "This field is missing."} }
+
         security:
             - Bearer: [ ]
 
         paths:
             /api/login_check:
                 post:
-                    tags: [ JWT ]
+                    tags: [ Api login ]
                     summary: Get jwt
                     requestBody:
                         description: get jwt
                         content:
                             application/json:
                                 schema:
-                                    $ref: '#/components/schemas/User'
+                                    $ref: '#/components/schemas/Credentials'
                         required: true
                     responses:
                         '200':
@@ -74,14 +109,12 @@ nelmio_api_doc:
                         '400':
                             description: Bad request
 
-
     areas: # to filter documented areas
         path_patterns:
             - ^/api(?!/doc$) # Accepts routes under /api except /api/doc
 
     models:
         names:
-#            - { alias: Application,        type: App\Entity\Application }
             - { alias: Application Created,  type: App\Entity\Application, groups: [ created ] }
             - { alias: Application Show,  type: App\Entity\Application, groups: [ show ] }
             - { alias: Application List,  type: App\Entity\Application, groups: [ list ] }
